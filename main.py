@@ -75,14 +75,12 @@ def get_cars(page):
 
 
 def main():
-    with open('.data') as f:
-
-        raw = f.read()
-
-        try:
+    try:
+        with open('.data') as f:
+            raw = f.read()
             data = json.loads(raw)
-        except:
-            data = {}
+    except:
+        data = {}
 
     for car_id, price, hand, year, url in get_cars(1):
         item = data.get(car_id, {})
