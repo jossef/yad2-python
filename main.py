@@ -1,9 +1,8 @@
 #!/usr/bin/python
+import random
 import requests
 import uuid
 import json
-import string
-import time
 
 
 def clean_ascii(text):
@@ -13,6 +12,20 @@ def clean_ascii(text):
 
 def clean_numeric(s):
     return int(''.join(i for i in s if i.isdigit()))
+
+
+http_proxies = [
+    "http://58.242.145.227:8080",
+    "http://101.66.253.22:8080",
+    "http://209.66.193.186:8080",
+    "http://101.26.38.162:80",
+    "http://123.7.88.171:3128",
+    "http://50.207.44.18:3128",
+    "http://117.169.14.81:8080",
+    "http://177.133.140.243:3128",
+    "http://122.4.244.121:80",
+    "http://199.115.114.38:80",
+]
 
 
 def get_cars(page):
@@ -35,11 +48,17 @@ def get_cars(page):
         'Page': page
     }
 
+    http_proxy = random.choice(http_proxies)
+
+    proxy_dict = {
+        "http": http_proxy
+    }
+
     headers = {
         'User-Agent': 'Apache-HttpClient/UNAVAILABLE (java 1.4)'
     }
 
-    r = requests.get('http://m.yad2.co.il/API/MadorResults.php', params=params, headers=headers)
+    r = requests.get('http://m.yad2.co.il/API/MadorResults.php', params=params, headers=headers, proxies=proxy_dict)
 
     try:
         data = r.json()
